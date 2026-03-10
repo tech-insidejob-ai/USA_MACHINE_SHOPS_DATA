@@ -40,8 +40,8 @@ export default function EmployeePieChart({ data }: Props) {
           dataKey="count"
           nameKey="range"
           paddingAngle={2}
-          label={({ range, count }) =>
-            `${range} (${((count / total) * 100).toFixed(1)}%)`
+          label={(props: any) =>
+            `${props.name ?? ''} (${((Number(props.value) / total) * 100).toFixed(1)}%)`
           }
           labelLine={{ stroke: "#52525b" }}
         >
@@ -56,8 +56,8 @@ export default function EmployeePieChart({ data }: Props) {
             borderRadius: "8px",
             color: "#fafafa",
           }}
-          formatter={(value: number, name: string) => [
-            value.toLocaleString(),
+          formatter={(value: any, name: any) => [
+            Number(value).toLocaleString(),
             `${name} employees`,
           ]}
         />

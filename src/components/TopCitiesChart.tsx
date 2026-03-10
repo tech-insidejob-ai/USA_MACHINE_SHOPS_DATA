@@ -12,16 +12,21 @@ import {
 } from "recharts"
 
 interface Props {
-  data: Array<{ state: string; count: number }>
+  data: Array<{ city: string; state: string; count: number }>
 }
 
-export default function StateBarChart({ data }: Props) {
+export default function TopCitiesChart({ data }: Props) {
+  const chartData = data.map((d) => ({
+    ...d,
+    label: `${d.city}, ${d.state.slice(0, 2).toUpperCase()}`,
+  }))
+
   return (
-    <ResponsiveContainer width="100%" height={520}>
+    <ResponsiveContainer width="100%" height={420}>
       <BarChart
-        data={data}
+        data={chartData}
         layout="vertical"
-        margin={{ top: 5, right: 30, left: 90, bottom: 5 }}
+        margin={{ top: 5, right: 30, left: 110, bottom: 5 }}
       >
         <CartesianGrid
           strokeDasharray="3 3"
@@ -31,10 +36,10 @@ export default function StateBarChart({ data }: Props) {
         <XAxis type="number" stroke="#71717a" fontSize={12} />
         <YAxis
           type="category"
-          dataKey="state"
+          dataKey="label"
           stroke="#a1a1aa"
           fontSize={12}
-          width={85}
+          width={105}
           tick={{ fill: "#a1a1aa" }}
         />
         <Tooltip
@@ -44,14 +49,18 @@ export default function StateBarChart({ data }: Props) {
             borderRadius: "8px",
             color: "#fafafa",
           }}
-          cursor={{ fill: "rgba(59, 130, 246, 0.08)" }}
-          formatter={(value: number) => [value.toLocaleString(), "Shops"]}
+          cursor={{ fill: "rgba(139, 92, 246, 0.08)" }}
+          formatter={(value: any) => [Number(value).toLocaleString(), "Shops"]}
+          labelFormatter={(label: any) => {
+            const item = chartData.find((d) => d.label === label)
+            return item ? `${item.city}, ${item.state}` : String(label)
+          }}
         />
         <Bar dataKey="count" radius={[0, 4, 4, 0]}>
-          {data.map((_, index) => (
+          {chartData.map((_, index) => (
             <Cell
               key={index}
-              fill={`hsl(${220 + index * 3}, 70%, ${60 - index * 0.8}%)`}
+              fill={`hsl(${270 + index * 5}, 55%, ${58 - index * 1.2}%)`}
             />
           ))}
         </Bar>

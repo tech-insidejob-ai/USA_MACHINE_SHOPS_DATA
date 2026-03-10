@@ -56,8 +56,8 @@ export default function StateCompositionChart({ data }: Props) {
             borderRadius: "8px",
             color: "#fafafa",
           }}
-          formatter={(value: number, name: string) => [
-            value.toLocaleString(),
+          formatter={(value: any, name: any) => [
+            Number(value).toLocaleString(),
             `${name} emp`,
           ]}
         />
